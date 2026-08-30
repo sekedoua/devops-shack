@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: chatbot
-          image: chatbot-api:latest
-          imagePullPolicy: Never
+          image: sekbil/chatbot-api:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000

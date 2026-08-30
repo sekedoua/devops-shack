@@ -35,6 +35,7 @@ jobs:
   docker:
     name: Build and Push Docker Image
     needs: test
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
@@ -58,3 +59,39 @@ jobs:
         run: |
           docker push sekbil/chatbot-api:${{ github.sha }}
           docker push sekbil/chatbot-api:latest
+  deploy:
+    name: Deploy to Kubernetes
+    needs: docker
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Check Kubernetes cluster
+        run: |
+          kubectl get nodes
+
+      - name: Apply Kubernetes manifests
+        run: |
+          kubectl apply -f deployment.yaml
+          kubectl apply -f service.yaml
+          kubectl apply -f ingress.yaml
+
+      - name: Deploy commit image
+        run: |
+          kubectl set image \
+            deployment/chatbot-deployment \
+            chatbot=sekbil/chatbot-api:${{ github.sha }}
+
+      - name: Wait for rollout
+        run: |
+          kubectl rollout status \
+            deployment/chatbot-deployment \
+            --timeout=180s
+
+      - name: Display Kubernetes status
+        run: |
+          kubectl get pods -o wide
+          kubectl get svc
+          kubectl get ingress
