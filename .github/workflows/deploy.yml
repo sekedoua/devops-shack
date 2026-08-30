@@ -97,3 +97,17 @@ jobs:
           kubectl get pods -o wide
           kubectl get svc
           kubectl get ingress
+
+      - name: Notify Slack - Success
+        if: success()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: "✅ Chatbot API deployed successfully - ${{ github.sha }}"
+
+      - name: Notify Slack - Failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: "❌ Chatbot API deployment failed - ${{ github.sha }}"
