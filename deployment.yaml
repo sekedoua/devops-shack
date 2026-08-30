@@ -6,7 +6,8 @@ metadata:
 
 spec:
   replicas: 3
-
+  minReadySeconds: 5
+  progressDeadlineSeconds: 900
   strategy:
     type: RollingUpdate
     rollingUpdate:
