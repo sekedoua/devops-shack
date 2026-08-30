@@ -1,0 +1,57 @@
+# -------------------------
+# Python
+# -------------------------
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+
+# -------------------------
+# Terraform
+# -------------------------
+.terraform/
+*.tfstate
+*.tfstate.*
+tfplan
+*.tfplan
+
+# On conserve volontairement le lock Terraform
+# .terraform.lock.hcl doit être versionné
+
+# -------------------------
+# AWS / credentials / debug
+# -------------------------
+.aws/
+aws/
+awscliv2.zip
+cloudtrail.txt
+defaultawssecuritygroup.txt
+
+# -------------------------
+# Secrets
+# -------------------------
+.env
+.env.*
+*.pem
+*.key
+*.kubeconfig
+kubeconfig
+
+# -------------------------
+# Temporary/debug files
+# -------------------------
+terraformplan.txt
+"secretsmanager create-secret \"
+
+# -------------------------
+# IDE
+# -------------------------
+.idea/
+.vscode/
+
+# -------------------------
+# OS
+# -------------------------
+.DS_Store
