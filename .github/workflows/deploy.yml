@@ -88,10 +88,12 @@ jobs:
         run: |
           kubectl rollout status \
             deployment/chatbot-deployment \
-            --timeout=180s
+            --timeout=300s
 
       - name: Display Kubernetes status
+        if: always()
         run: |
+          kubectl get deployment chatbot-deployment
           kubectl get pods -o wide
           kubectl get svc
           kubectl get ingress
