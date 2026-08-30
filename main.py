@@ -16,6 +16,14 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def read_root():
 	return {"message": "Welcome to Chatbot API"}
 
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+@app.get("/ready")
+def ready():
+    return {"status": "ready"}
+
 @app.post("/chat/")
 def chat_with_bot(user_input: str):
 	response = openai.ChatCompletion.create(
