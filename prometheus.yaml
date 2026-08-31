@@ -1,0 +1,22 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+
+metadata:
+  name: chatbot-monitor
+  namespace: monitoring
+  labels:
+    release: monitoring
+
+spec:
+  selector:
+    matchLabels:
+      app: chatbot
+
+  namespaceSelector:
+    matchNames:
+      - default
+
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s

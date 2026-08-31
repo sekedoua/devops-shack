@@ -3,6 +3,8 @@ kind: Service
 
 metadata:
   name: chatbot-service
+  labels:
+    app: chatbot
 
 spec:
   type: LoadBalancer
@@ -11,6 +13,7 @@ spec:
     app: chatbot
 
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 80
       targetPort: 8000

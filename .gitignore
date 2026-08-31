@@ -55,3 +55,4 @@ terraformplan.txt
 # OS
 # -------------------------
 .DS_Store
+get_helm.sh
