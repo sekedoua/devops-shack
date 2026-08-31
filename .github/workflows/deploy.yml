@@ -100,14 +100,20 @@ jobs:
 
       - name: Notify Slack - Success
         if: success()
-        uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: "✅ Chatbot API deployed successfully - ${{ github.sha }}"
+        run: |
+          curl -f -X POST \
+            -H 'Content-type: application/json' \
+            --data "{\"text\":\"✅ Chatbot API deployed successfully - ${{ github.sha }}\"}" \
+            "$SLACK_WEBHOOK"
 
       - name: Notify Slack - Failure
         if: failure()
-        uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: "❌ Chatbot API deployment failed - ${{ github.sha }}"
+        run: |
+          curl -f -X POST \
+            -H 'Content-type: application/json' \
+            --data "{\"text\":\"❌ Chatbot API deployment failed - ${{ github.sha }}\"}" \
+            "$SLACK_WEBHOOK"
