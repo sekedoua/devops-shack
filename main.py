@@ -18,13 +18,13 @@ app = FastAPI()
 REQUEST_COUNT = Counter(
     "chatbot_http_requests_total",
     "Total number of HTTP requests",
-    ["method", "endpoint", "status"],
+    ["method", "route", "status"],
 )
 
 REQUEST_LATENCY = Histogram(
     "chatbot_http_request_duration_seconds",
     "HTTP request duration in seconds",
-    ["endpoint"],
+    ["route"],
 )
 
 # Configure OpenAI API Key
@@ -39,16 +39,16 @@ async def prometheus_metrics(request: Request, call_next):
 
     duration = time.perf_counter() - start_time
 
-    endpoint = request.url.path
+    route = request.url.path
 
     REQUEST_COUNT.labels(
         method=request.method,
-        endpoint=endpoint,
+        route=route,
         status=str(response.status_code),
     ).inc()
 
     REQUEST_LATENCY.labels(
-        endpoint=endpoint,
+        route=route,
     ).observe(duration)
 
     return response
